@@ -8,9 +8,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L5DBYTZ90S"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-
       function gtag(){dataLayer.push(arguments);}
-
       gtag('js', new Date());
       gtag('config', 'G-L5DBYTZ90S');
     </script>
@@ -27,6 +25,19 @@
             --accent-hover: #db2777;
             --success: #10b981;
             --warning: #f59e0b;
+            --nav-bg: rgba(15, 23, 42, 0.95);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(15, 23, 42, 0.5);
+        }
+
+        body.light-mode {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --nav-bg: rgba(248, 250, 252, 0.95);
+            --border-color: rgba(15, 23, 42, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -44,6 +55,7 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         a {
@@ -63,10 +75,11 @@
         nav {
             position: sticky;
             top: 0;
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--nav-bg);
             backdrop-filter: blur(8px);
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-bottom 0.3s ease;
         }
 
         .nav-container {
@@ -85,15 +98,27 @@
             color: var(--accent);
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
         .nav-right {
             display: flex;
             gap: 1rem;
             align-items: center;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .language-selector {
@@ -101,7 +126,7 @@
             border-radius: 6px;
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             font-weight: 500;
             cursor: pointer;
         }
@@ -117,7 +142,7 @@
             font-weight: 500;
             background: transparent;
             color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         .btn-nav:hover {
@@ -221,12 +246,13 @@
 
         .btn-secondary {
             background: var(--card-bg);
-            color: white;
+            color: var(--text-primary);
             border: 2px solid var(--accent);
         }
 
         .btn-secondary:hover {
             background: var(--accent);
+            color: white;
             transform: translateY(-2px);
         }
 
@@ -247,7 +273,7 @@
             background: var(--card-bg);
             padding: 2rem;
             border-radius: 12px;
-            border: 1px solid rgba(236, 72, 153, 0.2);
+            border: 1px solid var(--border-color);
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -294,7 +320,7 @@
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
 
@@ -384,12 +410,12 @@
         }
 
         .btn-pass {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--border-color);
             color: var(--text-secondary);
         }
 
         .btn-pass:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(128, 128, 128, 0.2);
         }
 
         .btn-like {
@@ -430,7 +456,7 @@
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.875rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border-color);
         }
 
         footer a {
@@ -490,7 +516,7 @@
             width: 90%;
             max-width: 450px;
             position: relative;
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            border: 1px solid var(--accent);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
@@ -522,8 +548,8 @@
             width: 100%;
             padding: 0.75rem 1rem;
             border-radius: 8px;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             color: var(--text-primary);
             font-size: 1rem;
         }
@@ -531,16 +557,19 @@
         .form-group input:focus {
             outline: none;
             border-color: var(--accent);
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--card-bg);
         }
     </style>
 </head>
-<body>
+<body class="dark-mode">
 
     <nav>
         <div class="nav-container">
             <div class="logo">✨ BLIND</div>
             <div class="nav-right">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+                    🌙
+                </button>
                 <select class="language-selector" id="languageSelector" onchange="switchLanguage(this.value)">
                     <option value="en" selected>English (EN)</option>
                     <option value="ko">한국어 (KO)</option>
@@ -678,22 +707,21 @@
     </section>
 
     <section id="cta">
-        <h2 class="section-title">익명에서 시작된 인연</h2>
-        <p>지금 바로 가입하고 당신의 특별한 사람을 만나보세요</p>
-        <button class="btn btn-secondary" onclick="openModal('signupModal')">무료 가입하기</button>
+        <h2 class="section-title">Connections Born from Anonymity</h2>
+        <p>Sign up now and meet that special someone for you</p>
+        <button class="btn btn-secondary" onclick="openModal('signupModal')">Free Sign Up</button>
     </section>
 
     <footer>
-        <p>&copy; 2026 BLIND. 진정한 만남의 시작.</p>
+        <p>&copy; 2026 BLIND. Where real connections begin.</p>
         <p style="margin-top: 1rem; font-size: 0.8rem;">
-            <a href="#">개인정보처리방침</a> | 
-            <a href="#">이용약관</a> | 
-            <a href="#">고객지원</a>
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Service</a> | 
+            <a href="#">Customer Support</a>
         </p>
     </footer>
 
     <script>
-        // 다국어 번역 데이터
         const translations = {
             ko: {
                 login: "로그인",
@@ -754,342 +782,110 @@
                 privacy: "Privacy Policy",
                 terms: "Terms of Service",
                 support: "Customer Support"
-            },
-            zh: {
-                login: "登录",
-                signup: "注册",
-                heroSubtitle: "匿名认识新的人脉",
-                heroTitle: "做真实的自己",
-                heroDescription: "分享的是心声，不是面容。在BLIND上，先通过性格和兴趣了解彼此。",
-                startBtn: "立即开始",
-                appIntroBtn: "查看应用信息",
-                featuresTitle: "为什么选择BLIND?",
-                feature1Title: "完美的匿名性",
-                feature1Desc: "无需展示面容，通过性格和兴趣进行连接",
-                feature2Title: "真诚的对话",
-                feature2Desc: "毫无偏见地敞开心扉，享受深入的对话",
-                feature3Title: "智能配对",
-                feature3Desc: "自动与志趣相投的人建立联系",
-                feature4Title: "安全的环境",
-                feature4Desc: "身份验证和举报系统确保服务安全",
-                feature5Title: "自由选择",
-                feature5Desc: "只有在准备好见面时才能展示面容",
-                feature6Title: "真实连接",
-                feature6Desc: "找到性格匹配的人，而不是外表",
-                profilesTitle: "现在可以认识的人",
-                ctaTitle: "从匿名开始的缘份",
-                ctaDesc: "立即注册，找到你的特别的人",
-                signupBtn: "免费注册",
-                footerText: "&copy; 2026 BLIND. 真实连接开始的地方。",
-                privacy: "隐私政策",
-                terms: "服务条款",
-                support: "客户支持"
-            },
-            ja: {
-                login: "ログイン",
-                signup: "サインアップ",
-                heroSubtitle: "匿名で新しい出会いを",
-                heroTitle: "本当の自分を見つけよう",
-                heroDescription: "顔ではなく心で共有하는 대화。BLINDでは性格と趣味からまず知り合います。",
-                startBtn: "今すぐ開始",
-                appIntroBtn: "アプリ情報を見る",
-                featuresTitle: "BLIND가選ばれる理由",
-                feature1Title: "完全な匿名性",
-                feature1Desc: "顔を見せずに性格と趣味で繋がれます",
-                feature2Title: "本当の会話",
-                feature2Desc: "偏見なく心を開いて深い対話を楽しもう",
-                feature3Title: "スマートマッチング",
-                feature3Desc: "共通의興味を持つ人と自動的に繋がります",
-                feature4Title: "安全な環境",
-                feature4Desc: "本人確認と報告システムで安全を保証します",
-                feature5Title: "自由な選択",
-                feature5Desc: "会う準備ができたときだけ顔を見せます",
-                feature6Title: "本当の出会い",
-                feature6Desc: "見た目ではなく性格が合う人を見つけよう",
-                profilesTitle: "今会える人たち",
-                ctaTitle: "匿名から始まる運命",
-                ctaDesc: "今すぐ登録して、あなたの特別な人に出会おう",
-                signupBtn: "無料登録",
-                footerText: "&copy; 2026 BLIND. 本当の出会いが始まる。",
-                privacy: "プライバシーポリシー",
-                terms: "利用規約",
-                support: "カスタ머サポート"
-            },
-            es: {
-                login: "Iniciar sesión",
-                signup: "Registrarse",
-                heroSubtitle: "Conoce nuevas conexiones de forma anónima",
-                heroTitle: "Sé tu verdadero yo",
-                heroDescription: "Comparte conversaciones del corazón, no del rostro. En BLIND, conoce a las personas primero por personalidad e intereses.",
-                startBtn: "Comenzar ahora",
-                appIntroBtn: "Ver información de la app",
-                featuresTitle: "¿Por qué BLIND?",
-                feature1Title: "Anonimato perfecto",
-                feature1Desc: "Conecta sin mostrar tu rostro, mediante personalidad e intereses",
-                feature2Title: "Conversación genuina",
-                feature2Desc: "Comparte abiertamente sin prejuicios y ten conversaciones significativas",
-                feature3Title: "Emparejamiento inteligente",
-                feature3Desc: "Conéctate automáticamente con personas que comparten tus intereses",
-                feature4Title: "Ambiente seguro",
-                feature4Desc: "Verificación de identidad y sistema de denuncias garantizan seguridad",
-                feature5Title: "Libertad de elegir",
-                feature5Desc: "Muestra tu rostro solo cuando estés listo para conocer",
-                feature6Title: "Conexión real",
-                feature6Desc: "Encuentra personas que combinen con tu personalidad, no tu apariencia",
-                profilesTitle: "Personas con las que puedes conectar ahora",
-                ctaTitle: "Conexiones nacidas del anonimato",
-                ctaDesc: "Regístrate ahora y conoce a esa persona especial para ti",
-                signupBtn: "Registro gratuito",
-                footerText: "&copy; 2026 BLIND. Donde comienzan las conexiones reales.",
-                privacy: "Política de privacidad",
-                terms: "Términos de servicio",
-                support: "Soporte al cliente"
-            },
-            fr: {
-                login: "Connexion",
-                signup: "S'inscrire",
-                heroSubtitle: "Rencontrez de nouvelles connexions anonymement",
-                heroTitle: "Soyez votre vrai moi",
-                heroDescription: "Partagez des conversations du cœur, pas du visage. Sur BLIND, faites connaissance par la personnalité et les intérêts d'abord.",
-                startBtn: "Commencer maintenant",
-                appIntroBtn: "Voir les infos de l'app",
-                featuresTitle: "Pourquoi BLIND?",
-                feature1Title: "Anonymat parfait",
-                feature1Desc: "Connectez-vous sans montrer votre visage, par personnalité et intérêts",
-                feature2Title: "Conversation authentique",
-                feature2Desc: "Partagez ouvertement sans préjugés et ayez des discussions significatives",
-                feature3Title: "Appairage intelligent",
-                feature3Desc: "Connectez-vous automatiquement avec des personnes partageant vos intérêts",
-                feature4Title: "Environnement sûr",
-                feature4Desc: "Vérification d'identité et système de signalement garantissent la sécurité",
-                feature5Title: "Liberté de choisir",
-                feature5Desc: "Montrez votre visage uniquement lorsque vous êtes prêt à rencontrer",
-                feature6Title: "Connexion réelle",
-                feature6Desc: "Trouvez des personnes qui correspondent à votre personnalité, pas à votre apparence",
-                profilesTitle: "Personnes avec lesquelles vous pouvez vous connecter maintenant",
-                ctaTitle: "Connexions nées de l'anonymat",
-                ctaDesc: "Inscrivez-vous maintenant et rencontrez cette personne spéciale pour vous",
-                signupBtn: "Inscription gratuite",
-                footerText: "&copy; 2026 BLIND. Où les vraies connexions commencent.",
-                privacy: "Politique de confidentialité",
-                terms: "Conditions d'utilisation",
-                support: "Support client"
-            },
-            de: {
-                login: "Anmelden",
-                signup: "Registrieren",
-                heroSubtitle: "Lerne neue Kontakte anonym kennen",
-                heroTitle: "Sei dein wahres selbst",
-                heroDescription: "Teile Gesprächherzens, nicht des Gesichts. Bei BLIND lernt man Menschen zuerst durch Persönlichkeit und Interessen kennen.",
-                startBtn: "Jetzt starten",
-                appIntroBtn: "App-Info ansehen",
-                featuresTitle: "Warum BLIND?",
-                feature1Title: "Vollständige Anonymität",
-                feature1Desc: "Verbinden Sie sich ohne Ihr Gesicht zu zeigen, über Persönlichkeit und Interessen",
-                feature2Title: "Echtes Gespräch",
-                feature2Desc: "Teilen Sie offen und ohne Vorurteile und führen Sie bedeutungsvolle Gespräche",
-                feature3Title: "Intelligentes Matching",
-                feature3Desc: "Verbinden Sie sich automatisch mit Menschen, die Ihre Interessen teilen",
-                feature4Title: "Sichere Umgebung",
-                feature4Desc: "Identitätsprüfung und Meldesystem gewährleisten Sicherheit",
-                feature5Title: "Freiheit wählen",
-                feature5Desc: "Zeigen Sie Ihr Gesicht nur, wenn Sie ready sind zu treffen",
-                feature6Title: "Echte Verbindung",
-                feature6Desc: "Finde Menschen, die deiner Persönlichkeit, nicht deinem Aussehen entsprechen",
-                profilesTitle: "Menschen, mit denen Sie sich jetzt verbinden können",
-                ctaTitle: "Verbindungen aus Anonymität geboren",
-                ctaDesc: "Melden Sie sich jetzt an und treffen Sie diese spezielle Person für Sie",
-                signupBtn: "Kostenlose Registrierung",
-                footerText: "&copy; 2026 BLIND. Wo echte Verbindungen beginnen.",
-                privacy: "Datenschutzrichtlinie",
-                terms: "Nutzungsbedingungen",
-                support: "Kundenservice"
-            },
-            pt: {
-                login: "Login",
-                signup: "Cadastro",
-                heroSubtitle: "Conheça novas conexões anonimamente",
-                heroTitle: "Seja você mesmo",
-                heroDescription: "Compartilhe conversas do coração, não do rosto. No BLIND, conheça pessoas pela personalidade e interesses primeiro.",
-                startBtn: "Comece agora",
-                appIntroBtn: "Ver informações do app",
-                featuresTitle: "Por que BLIND?",
-                feature1Title: "Anonimato perfeito",
-                feature1Desc: "Conecte-se sem mostrar seu rosto, através de personalidade e interesses",
-                feature2Title: "Conversa genuína",
-                feature2Desc: "Compartilhe abertamente sem preconceitos e tenha conversas significativas",
-                feature3Title: "Correspondência inteligente",
-                feature3Desc: "Conecte-se automaticamente com pessoas que compartilham seus interesses",
-                feature4Title: "Ambiente seguro",
-                feature4Desc: "Verificação de identidade e sistema de denúncia garantem segurança",
-                feature5Title: "Liberdade de escolha",
-                feature5Desc: "Mostre seu rosto apenas quando estiver pronto para se encontrar",
-                feature6Title: "Conexão real",
-                feature6Desc: "Encontre pessoas que correspondam à sua personalidade, não aparência",
-                profilesTitle: "Pessoas com as quais você pode se conectar agora",
-                ctaTitle: "Conexões nascidas do anonimato",
-                ctaDesc: "Cadastre-se agora e encontre essa pessoa especial para você",
-                signupBtn: "Cadastro grátis",
-                footerText: "&copy; 2026 BLIND. Onde verdadeiras conexões começam.",
-                privacy: "Política de Privacidade",
-                terms: "Termos de Serviço",
-                support: "Suporte ao Cliente"
             }
         };
 
-        // 현재 언어 설정
         let currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+        let isDarkMode = localStorage.getItem('theme') !== 'light';
 
-        // 페이지 로드 시 언어 적용
         window.addEventListener('DOMContentLoaded', function() {
             document.getElementById('languageSelector').value = currentLanguage;
             applyTranslations(currentLanguage);
+            applyTheme();
         });
 
-        // 언어 전환 함수
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            applyTheme();
+        }
+
+        function applyTheme() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('themeToggle');
+            if (isDarkMode) {
+                body.classList.remove('light-mode');
+                toggleBtn.innerText = '🌙';
+            } else {
+                body.classList.add('light-mode');
+                toggleBtn.innerText = '☀️';
+            }
+        }
+
         function switchLanguage(lang) {
             currentLanguage = lang;
             localStorage.setItem('selectedLanguage', lang);
             applyTranslations(lang);
         }
 
-        // 번역 적용 함수
         function applyTranslations(lang) {
             const t = translations[lang];
-
-            // 네비게이션
-            document.querySelector('.btn-nav').innerText = t.login;
-            document.querySelectorAll('.btn-primary')[0].innerText = t.signup;
-
-            // 히어로 섹션
+            if (!t) return;
+            document.querySelectorAll('.btn-nav')[0].innerText = t.login;
+            document.querySelectorAll('.btn-nav')[1].innerText = t.signup;
             document.querySelector('.hero-subtitle').innerText = t.heroSubtitle;
             document.querySelector('.hero-title').innerText = t.heroTitle;
             document.querySelector('.hero-description').innerText = t.heroDescription;
             document.querySelectorAll('.btn-primary')[1].innerText = t.startBtn;
             document.querySelector('.btn-secondary').innerText = t.appIntroBtn;
-
-            // 피처 섹션 제목
             document.querySelectorAll('.section-title')[0].innerText = t.featuresTitle;
-
-            // 피처 카드
-            const featureTitles = document.querySelectorAll('.feature-title');
-            const featureDescs = document.querySelectorAll('.feature-desc');
-            
-            featureTitles[0].innerText = t.feature1Title;
-            featureDescs[0].innerText = t.feature1Desc;
-            featureTitles[1].innerText = t.feature2Title;
-            featureDescs[1].innerText = t.feature2Desc;
-            featureTitles[2].innerText = t.feature3Title;
-            featureDescs[2].innerText = t.feature3Desc;
-            featureTitles[3].innerText = t.feature4Title;
-            featureDescs[3].innerText = t.feature4Desc;
-            featureTitles[4].innerText = t.feature5Title;
-            featureDescs[4].innerText = t.feature5Desc;
-            featureTitles[5].innerText = t.feature6Title;
-            featureDescs[5].innerText = t.feature6Desc;
-
-            // 프로필 섹션
+            const titles = document.querySelectorAll('.feature-title');
+            const descs = document.querySelectorAll('.feature-desc');
+            for(let i=0; i<6; i++) {
+                titles[i].innerText = t[`feature${i+1}Title`];
+                descs[i].innerText = t[`feature${i+1}Desc`];
+            }
             document.querySelectorAll('.section-title')[1].innerText = t.profilesTitle;
-
-            // CTA 섹션
             document.querySelectorAll('.section-title')[2].innerText = t.ctaTitle;
             document.querySelector('#cta p').innerText = t.ctaDesc;
             document.querySelectorAll('.btn-secondary')[1].innerText = t.signupBtn;
-
-            // 푸터
-            const footerP = document.querySelector('footer p');
-            footerP.innerHTML = t.footerText;
-            const footerLinks = document.querySelectorAll('footer a');
-            footerLinks[0].innerText = t.privacy;
-            footerLinks[1].innerText = t.terms;
-            footerLinks[2].innerText = t.support;
-
-            // 페이지 언어 속성 변경
+            document.querySelector('footer p').innerHTML = t.footerText;
+            const links = document.querySelectorAll('footer a');
+            links[0].innerText = t.privacy;
+            links[1].innerText = t.terms;
+            links[2].innerText = t.support;
             document.documentElement.lang = lang;
         }
 
-        // 모달 제어 함수
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // 스크롤 방지
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto'; // 스크롤 복구
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
-
-        // 바깥 클릭 시 닫기
-        window.onclick = function(event) {
-            if (event.target.className === 'modal-overlay') {
-                event.target.style.display = 'none';
+        window.onclick = function(e) {
+            if (e.target.className === 'modal-overlay') {
+                e.target.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
         }
-
-        // 폼 제출 처리 (임시)
-        function handleAuth(event, type) {
-            event.preventDefault();
-            const email = event.target.querySelector('input[type="email"]').value;
-            const password = event.target.querySelector('input[type="password"]').value;
-            
-            console.log(`${type} attempt:`, { email, password });
-            alert(`${type} successful! (Before server connection)`);
-            closeModal(type === 'Login' ? 'loginModal' : 'signupModal');
-        }
     </script>
 
-    <!-- 모달: 로그인 -->
     <div id="loginModal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
             <h2 class="section-title">Login</h2>
-            <form onsubmit="handleAuth(event, 'Login')">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="email@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="********" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+            <form onsubmit="event.preventDefault(); alert('Login logic here');">
+                <div class="form-group"><label>Email</label><input type="email" required></div>
+                <div class="form-group"><label>Password</label><input type="password" required></div>
+                <button type="submit" class="btn btn-primary" style="width:100%">Login</button>
             </form>
-            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-                Don't have an account? <a href="#" onclick="closeModal('loginModal'); openModal('signupModal'); return false;" style="color: var(--accent);">Sign Up</a>
-            </p>
         </div>
     </div>
 
-    <!-- 모달: 가입하기 -->
     <div id="signupModal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('signupModal')">&times;</button>
             <h2 class="section-title">Sign Up</h2>
-            <form onsubmit="handleAuth(event, 'Sign Up')">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" placeholder="John Doe" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="email@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="********" required>
-                </div>
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input type="password" placeholder="********" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign Up</button>
+            <form onsubmit="event.preventDefault(); alert('Signup logic here');">
+                <div class="form-group"><label>Name</label><input type="text" required></div>
+                <div class="form-group"><label>Email</label><input type="email" required></div>
+                <div class="form-group"><label>Password</label><input type="password" required></div>
+                <button type="submit" class="btn btn-primary" style="width:100%">Sign Up</button>
             </form>
-            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-                Already have an account? <a href="#" onclick="closeModal('signupModal'); openModal('loginModal'); return false;" style="color: var(--accent);">Login</a>
-            </p>
         </div>
     </div>
-
 </body>
 </html>
