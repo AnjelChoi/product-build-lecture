@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>블라인드 | 익명 소개팅 앱</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #ec4899;
+            --accent-hover: #db2777;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: var(--accent);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .language-selector {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .language-selector:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-nav {
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 500;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-nav:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 0.75rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Hero */
+        #hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .hero-subtitle {
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Features */
+        #features {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Profiles Preview */
+        #profiles {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 3rem;
+        }
+
+        .blur-mask {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            opacity: 0.7;
+        }
+
+        .profile-info {
+            padding: 1.5rem;
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-details {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-bio {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(236, 72, 153, 0.1);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-pass {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .btn-pass:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-like {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-like:hover {
+            background: var(--accent-hover);
+        }
+
+        /* CTA Section */
+        #cta {
+            background: linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%);
+            text-align: center;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        #cta .section-title {
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        #cta .section-title::after {
+            background: white;
+        }
+
+        #cta p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer a {
+            color: var(--accent);
+        }
+
+        footer a:hover {
+            color: var(--accent-hover);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .nav-buttons {
+                display: none;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">✨ BLIND</div>
+            <div class="nav-right">
+                <select class="language-selector" id="languageSelector" onchange="switchLanguage(this.value)">
+                    <option value="ko">한국어 (KO)</option>
+                    <option value="en">English (EN)</option>
+                    <option value="zh">中文 (ZH)</option>
+                    <option value="ja">日本語 (JA)</option>
+                    <option value="es">Español (ES)</option>
+                    <option value="fr">Français (FR)</option>
+                    <option value="de">Deutsch (DE)</option>
+                    <option value="pt">Português (PT)</option>
+                </select>
+                <button class="btn-nav" onclick="alert('로그인 기능')">로그인</button>
+                <button class="btn-nav btn-primary" onclick="alert('가입 기능')">가입하기</button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <span class="hero-subtitle">익명으로 만나는 새로운 인연</span>
+        <h1 class="hero-title">진정한 자신과 만나다</h1>
+        <p class="hero-description">얼굴이 아닌 마음으로 나누는 대화, 블라인드에서는 성격과 취미로 먼저 알아가요</p>
+        <div class="hero-cta">
+            <button class="btn btn-primary">지금 시작하기</button>
+            <button class="btn btn-secondary">앱 소개 보기</button>
+        </div>
+    </section>
+
+    <section id="features">
+        <h2 class="section-title">왜 블라인드일까요?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🎭</span>
+                <h3 class="feature-title">완벽한 익명성</h3>
+                <p class="feature-desc">얼굴을 공개하지 않고 성격, 취미, 관심사로 만나세요</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💬</span>
+                <h3 class="feature-title">진정한 대화</h3>
+                <p class="feature-desc">편견 없이 마음을 열고 깊이 있는 대화를 나눠요</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎯</span>
+                <h3 class="feature-title">스마트 매칭</h3>
+                <p class="feature-desc">관심사와 성향이 잘 맞는 사람과 자동으로 연결돼요</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔒</span>
+                <h3 class="feature-title">안전한 환경</h3>
+                <p class="feature-desc">신원 확인과 신고 시스템으로 안전한 서비스를 보장해요</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">⏰</span>
+                <h3 class="feature-title">자유로운 선택</h3>
+                <p class="feature-desc">만날 준비가 되었을 때 선택적으로 얼굴을 공개해요</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💝</span>
+                <h3 class="feature-title">진정한 만남</h3>
+                <p class="feature-desc">외모가 아닌 성격이 맞는 인연을 찾으세요</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="profiles">
+        <h2 class="section-title">지금 만날 수 있는 사람들</h2>
+        <div class="profiles-grid">
+            <div class="profile-card">
+                <div class="profile-image">
+                    <div class="blur-mask">🫥</div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">준희 ( 28, 여 )</div>
+                    <div class="profile-details">
+                        <span>서울 강남</span>
+                        <span>직장인</span>
+                    </div>
+                    <p class="profile-bio">책과 카페를 사랑하는 감성적인 사람이에요. 진정한 대화를 나누고 싶어요.</p>
+                    <div class="profile-tags">
+                        <span class="tag">책</span>
+                        <span class="tag">카페</span>
+                        <span class="tag">여행</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-small btn-pass">×</button>
+                        <button class="btn-small btn-like">💕 좋아요</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-image">
+                    <div class="blur-mask">🫥</div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">민준 ( 30, 남 )</div>
+                    <div class="profile-details">
+                        <span>서울 마포</span>
+                        <span>프리랜서</span>
+                    </div>
+                    <p class="profile-bio">영화광이면서 운동을 좋아해요. 함께 성장할 수 있는 사람을 찾고 있어요.</p>
+                    <div class="profile-tags">
+                        <span class="tag">영화</span>
+                        <span class="tag">운동</span>
+                        <span class="tag">개발</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-small btn-pass">×</button>
+                        <button class="btn-small btn-like">💕 좋아요</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-image">
+                    <div class="blur-mask">🫥</div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">수연 ( 26, 여 )</div>
+                    <div class="profile-details">
+                        <span>서울 강북</span>
+                        <span>디자이너</span>
+                    </div>
+                    <p class="profile-bio">음악과 미술에 빠져있어요. 다양한 경험을 함께 나눌 사람을 원해요.</p>
+                    <div class="profile-tags">
+                        <span class="tag">음악</span>
+                        <span class="tag">미술</span>
+                        <span class="tag">연주</span>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn-small btn-pass">×</button>
+                        <button class="btn-small btn-like">💕 좋아요</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta">
+        <h2 class="section-title">익명에서 시작된 인연</h2>
+        <p>지금 바로 가입하고 당신의 특별한 사람을 만나보세요</p>
+        <button class="btn btn-secondary">무료 가입하기</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 BLIND. 진정한 만남의 시작.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">
+            <a href="#">개인정보처리방침</a> | 
+            <a href="#">이용약관</a> | 
+            <a href="#">고객지원</a>
+        </p>
+    </footer>
+
+    <script>
+        // 다국어 번역 데이터
+        const translations = {
+            ko: {
+                login: "로그인",
+                signup: "가입하기",
+                heroSubtitle: "익명으로 만나는 새로운 인연",
+                heroTitle: "진정한 자신과 만나다",
+                heroDescription: "얼굴이 아닌 마음으로 나누는 대화, 블라인드에서는 성격과 취미로 먼저 알아가요",
+                startBtn: "지금 시작하기",
+                appIntroBtn: "앱 소개 보기",
+                featuresTitle: "왜 블라인드일까요?",
+                feature1Title: "완벽한 익명성",
+                feature1Desc: "얼굴을 공개하지 않고 성격, 취미, 관심사로 만나세요",
+                feature2Title: "진정한 대화",
+                feature2Desc: "편견 없이 마음을 열고 깊이 있는 대화를 나눠요",
+                feature3Title: "스마트 매칭",
+                feature3Desc: "관심사와 성향이 잘 맞는 사람과 자동으로 연결돼요",
+                feature4Title: "안전한 환경",
+                feature4Desc: "신원 확인과 신고 시스템으로 안전한 서비스를 보장해요",
+                feature5Title: "자유로운 선택",
+                feature5Desc: "만날 준비가 되었을 때 선택적으로 얼굴을 공개해요",
+                feature6Title: "진정한 만남",
+                feature6Desc: "외모가 아닌 성격이 맞는 인연을 찾으세요",
+                profilesTitle: "지금 만날 수 있는 사람들",
+                ctaTitle: "익명에서 시작된 인연",
+                ctaDesc: "지금 바로 가입하고 당신의 특별한 사람을 만나보세요",
+                signupBtn: "무료 가입하기",
+                footerText: "&copy; 2026 BLIND. 진정한 만남의 시작.",
+                privacy: "개인정보처리방침",
+                terms: "이용약관",
+                support: "고객지원"
+            },
+            en: {
+                login: "Login",
+                signup: "Sign Up",
+                heroSubtitle: "Meet New Connections Anonymously",
+                heroTitle: "Be Your True Self",
+                heroDescription: "Share conversations from the heart, not the face. Get to know people through personality and interests first on BLIND.",
+                startBtn: "Start Now",
+                appIntroBtn: "View App Info",
+                featuresTitle: "Why BLIND?",
+                feature1Title: "Perfect Anonymity",
+                feature1Desc: "Meet without showing your face, connect through personality and interests",
+                feature2Title: "Genuine Conversation",
+                feature2Desc: "Share openly without prejudice and have meaningful discussions",
+                feature3Title: "Smart Matching",
+                feature3Desc: "Automatically connect with people who share your interests and personality",
+                feature4Title: "Safe Environment",
+                feature4Desc: "Identity verification and reporting system ensure a safe service",
+                feature5Title: "Freedom to Choose",
+                feature5Desc: "Reveal your face only when you're ready to meet",
+                feature6Title: "Real Connection",
+                feature6Desc: "Find people who match your personality, not your appearance",
+                profilesTitle: "People You Can Meet Now",
+                ctaTitle: "Connections Born from Anonymity",
+                ctaDesc: "Sign up now and meet that special someone for you",
+                signupBtn: "Free Sign Up",
+                footerText: "&copy; 2026 BLIND. Where real connections begin.",
+                privacy: "Privacy Policy",
+                terms: "Terms of Service",
+                support: "Customer Support"
+            },
+            zh: {
+                login: "登录",
+                signup: "注册",
+                heroSubtitle: "匿名认识新的人脉",
+                heroTitle: "做真实的自己",
+                heroDescription: "分享的是心声，不是面容。在BLIND上，先通过性格和兴趣了解彼此。",
+                startBtn: "立即开始",
+                appIntroBtn: "查看应用信息",
+                featuresTitle: "为什么选择BLIND?",
+                feature1Title: "完美的匿名性",
+                feature1Desc: "无需展示面容，通过性格和兴趣进行连接",
+                feature2Title: "真诚的对话",
+                feature2Desc: "毫无偏见地敞开心扉，享受深入的对话",
+                feature3Title: "智能配对",
+                feature3Desc: "自动与志趣相投的人建立联系",
+                feature4Title: "安全的环境",
+                feature4Desc: "身份验证和举报系统确保服务安全",
+                feature5Title: "自由选择",
+                feature5Desc: "只有在准备好见面时才能展示面容",
+                feature6Title: "真实连接",
+                feature6Desc: "找到性格匹配的人，而不是外表",
+                profilesTitle: "现在可以认识的人",
+                ctaTitle: "从匿名开始的缘份",
+                ctaDesc: "立即注册，找到你的特别的人",
+                signupBtn: "免费注册",
+                footerText: "&copy; 2026 BLIND. 真实连接开始的地方。",
+                privacy: "隐私政策",
+                terms: "服务条款",
+                support: "客户支持"
+            },
+            ja: {
+                login: "ログイン",
+                signup: "サインアップ",
+                heroSubtitle: "匿名で新しい出会いを",
+                heroTitle: "本当の自分を見つけよう",
+                heroDescription: "顔ではなく心で共有する会話。BLINDでは性格と趣味からまず知り合います。",
+                startBtn: "今すぐ開始",
+                appIntroBtn: "アプリ情報を見る",
+                featuresTitle: "BLINDが選ばれる理由",
+                feature1Title: "完全な匿名性",
+                feature1Desc: "顔を見せずに性格と趣味で繋がれます",
+                feature2Title: "本当の会話",
+                feature2Desc: "偏見なく心を開いて深い対話を楽しもう",
+                feature3Title: "スマートマッチング",
+                feature3Desc: "共通の興味を持つ人と自動的に繋がります",
+                feature4Title: "安全な環境",
+                feature4Desc: "本人確認と報告システムで安全を保証します",
+                feature5Title: "自由な選択",
+                feature5Desc: "会う準備ができたときだけ顔を見せます",
+                feature6Title: "本当の出会い",
+                feature6Desc: "見た目ではなく性格が合う人を見つけよう",
+                profilesTitle: "今会える人たち",
+                ctaTitle: "匿名から始まる運命",
+                ctaDesc: "今すぐ登録して、あなたの特別な人に出会おう",
+                signupBtn: "無料登録",
+                footerText: "&copy; 2026 BLIND. 本当の出会いが始まる。",
+                privacy: "プライバシーポリシー",
+                terms: "利用規約",
+                support: "カスタマーサポート"
+            },
+            es: {
+                login: "Iniciar sesión",
+                signup: "Registrarse",
+                heroSubtitle: "Conoce nuevas conexiones de forma anónima",
+                heroTitle: "Sé tu verdadero yo",
+                heroDescription: "Comparte conversaciones del corazón, no del rostro. En BLIND, conoce a las personas primero por personalidad e intereses.",
+                startBtn: "Comenzar ahora",
+                appIntroBtn: "Ver información de la app",
+                featuresTitle: "¿Por qué BLIND?",
+                feature1Title: "Anonimato perfecto",
+                feature1Desc: "Conecta sin mostrar tu rostro, mediante personalidad e intereses",
+                feature2Title: "Conversación genuina",
+                feature2Desc: "Comparte abiertamente sin prejuicios y ten conversaciones significativas",
+                feature3Title: "Emparejamiento inteligente",
+                feature3Desc: "Conéctate automáticamente con personas que comparten tus intereses",
+                feature4Title: "Ambiente seguro",
+                feature4Desc: "Verificación de identidad y sistema de denuncias garantizan seguridad",
+                feature5Title: "Libertad de elegir",
+                feature5Desc: "Muestra tu rostro solo cuando estés listo para conocer",
+                feature6Title: "Conexión real",
+                feature6Desc: "Encuentra personas que combinen con tu personalidad, no tu apariencia",
+                profilesTitle: "Personas con las que puedes conectar ahora",
+                ctaTitle: "Conexiones nacidas del anonimato",
+                ctaDesc: "Regístrate ahora y conoce a esa persona especial para ti",
+                signupBtn: "Registro gratuito",
+                footerText: "&copy; 2026 BLIND. Donde comienzan las conexiones reales.",
+                privacy: "Política de privacidad",
+                terms: "Términos de servicio",
+                support: "Soporte al cliente"
+            },
+            fr: {
+                login: "Connexion",
+                signup: "S'inscrire",
+                heroSubtitle: "Rencontrez de nouvelles connexions anonymement",
+                heroTitle: "Soyez votre vrai moi",
+                heroDescription: "Partagez des conversations du cœur, pas du visage. Sur BLIND, faites connaissance par la personnalité et les intérêts d'abord.",
+                startBtn: "Commencer maintenant",
+                appIntroBtn: "Voir les infos de l'app",
+                featuresTitle: "Pourquoi BLIND?",
+                feature1Title: "Anonymat parfait",
+                feature1Desc: "Connectez-vous sans montrer votre visage, par personnalité et intérêts",
+                feature2Title: "Conversation authentique",
+                feature2Desc: "Partagez ouvertement sans préjugés et ayez des discussions significatives",
+                feature3Title: "Appairage intelligent",
+                feature3Desc: "Connectez-vous automatiquement avec des personnes partageant vos intérêts",
+                feature4Title: "Environnement sûr",
+                feature4Desc: "Vérification d'identité et système de signalement garantissent la sécurité",
+                feature5Title: "Liberté de choisir",
+                feature5Desc: "Montrez votre visage uniquement lorsque vous êtes prêt à rencontrer",
+                feature6Title: "Connexion réelle",
+                feature6Desc: "Trouvez des personnes qui correspondent à votre personnalité, pas à votre apparence",
+                profilesTitle: "Personnes avec lesquelles vous pouvez vous connecter maintenant",
+                ctaTitle: "Connexions nées de l'anonymat",
+                ctaDesc: "Inscrivez-vous maintenant et rencontrez cette personne spéciale pour vous",
+                signupBtn: "Inscription gratuite",
+                footerText: "&copy; 2026 BLIND. Où les vraies connexions commencent.",
+                privacy: "Politique de confidentialité",
+                terms: "Conditions d'utilisation",
+                support: "Support client"
+            },
+            de: {
+                login: "Anmelden",
+                signup: "Registrieren",
+                heroSubtitle: "Lerne neue Kontakte anonym kennen",
+                heroTitle: "Sei dein wahres selbst",
+                heroDescription: "Teile Gesprächherzens, nicht des Gesichts. Bei BLIND lernt man Menschen zuerst durch Persönlichkeit und Interessen kennen.",
+                startBtn: "Jetzt starten",
+                appIntroBtn: "App-Info ansehen",
+                featuresTitle: "Warum BLIND?",
+                feature1Title: "Vollständige Anonymität",
+                feature1Desc: "Verbinden Sie sich ohne Ihr Gesicht zu zeigen, über Persönlichkeit und Interessen",
+                feature2Title: "Echtes Gespräch",
+                feature2Desc: "Teilen Sie offen und ohne Vorurteile und führen Sie bedeutungsvolle Gespräche",
+                feature3Title: "Intelligentes Matching",
+                feature3Desc: "Verbinden Sie sich automatisch mit Menschen, die Ihre Interessen teilen",
+                feature4Title: "Sichere Umgebung",
+                feature4Desc: "Identitätsprüfung und Meldesystem gewährleisten Sicherheit",
+                feature5Title: "Freiheit wählen",
+                feature5Desc: "Zeigen Sie Ihr Gesicht nur, wenn Sie ready sind zu treffen",
+                feature6Title: "Echte Verbindung",
+                feature6Desc: "Finde Menschen, die deiner Persönlichkeit, nicht deinem Aussehen entsprechen",
+                profilesTitle: "Menschen, mit denen Sie sich jetzt verbinden können",
+                ctaTitle: "Verbindungen aus Anonymität geboren",
+                ctaDesc: "Melden Sie sich jetzt an und treffen Sie diese spezielle Person für Sie",
+                signupBtn: "Kostenlose Registrierung",
+                footerText: "&copy; 2026 BLIND. Wo echte Verbindungen beginnen.",
+                privacy: "Datenschutzrichtlinie",
+                terms: "Nutzungsbedingungen",
+                support: "Kundenservice"
+            },
+            pt: {
+                login: "Login",
+                signup: "Cadastro",
+                heroSubtitle: "Conheça novas conexões anonimamente",
+                heroTitle: "Seja você mesmo",
+                heroDescription: "Compartilhe conversas do coração, não do rosto. No BLIND, conheça pessoas pela personalidade e interesses primeiro.",
+                startBtn: "Comece agora",
+                appIntroBtn: "Ver informações do app",
+                featuresTitle: "Por que BLIND?",
+                feature1Title: "Anonimato perfeito",
+                feature1Desc: "Conecte-se sem mostrar seu rosto, através de personalidade e interesses",
+                feature2Title: "Conversa genuína",
+                feature2Desc: "Compartilhe abertamente sem preconceitos e tenha conversas significativas",
+                feature3Title: "Correspondência inteligente",
+                feature3Desc: "Conecte-se automaticamente com pessoas que compartilham seus interesses",
+                feature4Title: "Ambiente seguro",
+                feature4Desc: "Verificação de identidade e sistema de denúncia garantem segurança",
+                feature5Title: "Liberdade de escolha",
+                feature5Desc: "Mostre seu rosto apenas quando estiver pronto para se encontrar",
+                feature6Title: "Conexão real",
+                feature6Desc: "Encontre pessoas que correspondam à sua personalidade, não aparência",
+                profilesTitle: "Pessoas com as quais você pode se conectar agora",
+                ctaTitle: "Conexões nascidas do anonimato",
+                ctaDesc: "Cadastre-se agora e encontre essa pessoa especial para você",
+                signupBtn: "Cadastro grátis",
+                footerText: "&copy; 2026 BLIND. Onde verdadeiras conexões começam.",
+                privacy: "Política de Privacidade",
+                terms: "Termos de Serviço",
+                support: "Suporte ao Cliente"
+            }
+        };
+
+        // 현재 언어 설정
+        let currentLanguage = localStorage.getItem('selectedLanguage') || 'ko';
+
+        // 페이지 로드 시 언어 적용
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('languageSelector').value = currentLanguage;
+            applyTranslations(currentLanguage);
+        });
+
+        // 언어 전환 함수
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('selectedLanguage', lang);
+            applyTranslations(lang);
+        }
+
+        // 번역 적용 함수
+        function applyTranslations(lang) {
+            const t = translations[lang];
+
+            // 네비게이션
+            document.querySelector('.btn-nav').innerText = t.login;
+            document.querySelectorAll('.btn-primary')[0].innerText = t.signup;
+
+            // 히어로 섹션
+            document.querySelector('.hero-subtitle').innerText = t.heroSubtitle;
+            document.querySelector('.hero-title').innerText = t.heroTitle;
+            document.querySelector('.hero-description').innerText = t.heroDescription;
+            document.querySelectorAll('.btn-primary')[1].innerText = t.startBtn;
+            document.querySelector('.btn-secondary').innerText = t.appIntroBtn;
+
+            // 피처 섹션 제목
+            document.querySelectorAll('.section-title')[0].innerText = t.featuresTitle;
+
+            // 피처 카드
+            const featureTitles = document.querySelectorAll('.feature-title');
+            const featureDescs = document.querySelectorAll('.feature-desc');
+            
+            featureTitles[0].innerText = t.feature1Title;
+            featureDescs[0].innerText = t.feature1Desc;
+            featureTitles[1].innerText = t.feature2Title;
+            featureDescs[1].innerText = t.feature2Desc;
+            featureTitles[2].innerText = t.feature3Title;
+            featureDescs[2].innerText = t.feature3Desc;
+            featureTitles[3].innerText = t.feature4Title;
+            featureDescs[3].innerText = t.feature4Desc;
+            featureTitles[4].innerText = t.feature5Title;
+            featureDescs[4].innerText = t.feature5Desc;
+            featureTitles[5].innerText = t.feature6Title;
+            featureDescs[5].innerText = t.feature6Desc;
+
+            // 프로필 섹션
+            document.querySelectorAll('.section-title')[1].innerText = t.profilesTitle;
+
+            // CTA 섹션
+            document.querySelectorAll('.section-title')[2].innerText = t.ctaTitle;
+            document.querySelector('#cta p').innerText = t.ctaDesc;
+            document.querySelectorAll('.btn-secondary')[1].innerText = t.signupBtn;
+
+            // 푸터
+            const footerP = document.querySelector('footer p');
+            footerP.innerHTML = t.footerText;
+            const footerLinks = document.querySelectorAll('footer a');ㅎㄷ
+            footerLinks[0].innerText = t.privacy;
+            footerLinks[1].innerText = t.terms;
+            footerLinks[2].innerText = t.support;
+
+            // 페이지 언어 속성 변경
+            document.documentElement.lang = lang;
+        }
+    </script>
+
+</body>
+</html>
