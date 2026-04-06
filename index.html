@@ -722,6 +722,7 @@
     </footer>
 
     <script>
+        const API_URL = 'http://localhost:5000/api';
         const translations = {
             ko: {
                 login: "로그인",
@@ -792,7 +793,90 @@
             document.getElementById('languageSelector').value = currentLanguage;
             applyTranslations(currentLanguage);
             applyTheme();
+            checkLoginStatus();
         });
+
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const navRight = document.querySelector('.nav-right');
+            const loginBtn = document.querySelectorAll('.btn-nav')[0];
+            const signupBtn = document.querySelectorAll('.btn-nav')[1];
+
+            if (user) {
+                loginBtn.style.display = 'none';
+                signupBtn.innerText = 'Logout';
+                signupBtn.onclick = handleLogout;
+                signupBtn.classList.remove('btn-primary');
+                
+                if (!document.getElementById('welcomeMsg')) {
+                    const welcome = document.createElement('span');
+                    welcome.id = 'welcomeMsg';
+                    welcome.style.marginRight = '1rem';
+                    welcome.innerText = `Hi, ${user.name}!`;
+                    navRight.insertBefore(welcome, signupBtn);
+                }
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            location.reload();
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            const password = event.target.querySelector('input[type="password"]').value;
+
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    alert('Login successful!');
+                    location.reload();
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('Could not connect to the server. (Make sure your API server is running on http://localhost:5000)');
+            }
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            const name = event.target.querySelector('input[type="text"]').value;
+            const email = event.target.querySelector('input[type="email"]').value;
+            const password = event.target.querySelector('input[type="password"]').value;
+
+            try {
+                const response = await fetch(`${API_URL}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Signup successful! Please login.');
+                    closeModal('signupModal');
+                    openModal('loginModal');
+                } else {
+                    alert(data.message || 'Signup failed');
+                }
+            } catch (error) {
+                console.error('Error during signup:', error);
+                alert('Could not connect to the server.');
+            }
+        }
 
         function toggleTheme() {
             isDarkMode = !isDarkMode;
@@ -867,7 +951,7 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
             <h2 class="section-title">Login</h2>
-            <form onsubmit="event.preventDefault(); alert('Login logic here');">
+            <form onsubmit="handleLogin(event)">
                 <div class="form-group"><label>Email</label><input type="email" required></div>
                 <div class="form-group"><label>Password</label><input type="password" required></div>
                 <button type="submit" class="btn btn-primary" style="width:100%">Login</button>
@@ -879,7 +963,7 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('signupModal')">&times;</button>
             <h2 class="section-title">Sign Up</h2>
-            <form onsubmit="event.preventDefault(); alert('Signup logic here');">
+            <form onsubmit="handleSignup(event)">
                 <div class="form-group"><label>Name</label><input type="text" required></div>
                 <div class="form-group"><label>Email</label><input type="email" required></div>
                 <div class="form-group"><label>Password</label><input type="password" required></div>
